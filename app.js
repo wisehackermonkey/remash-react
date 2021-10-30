@@ -1,11 +1,19 @@
+const cors = require("cors")
+
+
 const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
-const cors = require("cors")
 const port = process.env.PORT || 4001;
-// const index = require("./routes/index");
+const index = require("./routes/index");
 
 const app = express();
+// var corsOptions = {
+//     origin: 'http://localhost:3000',
+//     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+//   }
+app.use(index);
+
 app.use(cors());
 
 const server = http.createServer(app);

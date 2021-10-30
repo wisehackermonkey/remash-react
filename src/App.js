@@ -4,30 +4,32 @@ import { useEffect, useState } from 'react';
 
 import Typography from '@mui/material/Typography';
 
-import io from 'socket.io-client';
-
-import {
-  Stack,
-  AppBar,
-  Toolbar,
-  Button,
-  Container,
-  Box, Paper,
-  CssBaseline,
-  TextField,
-  Divider
-} from '@mui/material';
-
+ import socketIOClient from "socket.io-client";
+ 
+ 
+ import {
+   Stack,
+   AppBar,
+   Toolbar,
+   Button,
+   Container,
+   Box, Paper,
+   CssBaseline,
+   TextField,
+   Divider
+  } from '@mui/material';
+  
+  const ENDPOINT = "http://127.0.0.1:4001";
 function App() {
 
-  const [socket, setSocket] = useState(null);
+  const [response, setResponse] = useState("");
 
   useEffect(() => {
-    const newSocket = io(`http://${window.location.hostname}:4001`);
-    setSocket(newSocket);
-    return () => newSocket.close();
-  }, [setSocket]);
-
+    const socket = socketIOClient(ENDPOINT);
+    socket.on("FromAPI", data => {
+      setResponse(data);
+    });
+  }, []);
 
    return (
     <>
@@ -71,7 +73,9 @@ function App() {
                 variant="standard"
                 placeholder="Type here!"
                 multiline
+                value={response }
                 rows={4}
+                onChange={(e)=>setResponse(e.target.value)}
               />
             </Stack>
           </Paper>
@@ -83,3 +87,14 @@ function App() {
 }
 
 export default App;
+
+
+
+//   return (
+//     <p>
+//       It's <time dateTime={response}>{response}</time>
+//     </p>
+//   );
+// }
+
+// export default App;
