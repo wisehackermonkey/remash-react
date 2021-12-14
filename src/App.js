@@ -26,7 +26,7 @@ function App() {
 
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
-    socket.on("FromAPI", data => {
+    socket.on("sync", data => {
       setResponse(data);
     });
   }, []);
